@@ -1,1 +1,1101 @@
+/* ==================================================
+   VARIÁVEIS DO EDUCASIM
+   Troque estes valores para personalizar o visual do site.
+   ================================================== */
+:root {
+    --verde-950: #082d28;
+    --verde-900: #0d4038;
+    --verde-800: #12594d;
+    --verde-700: #177565;
+    --verde-100: #e7f5f0;
+    --verde-50: #f3fbf8;
 
+    --amarelo-500: #f3bd24;
+    --amarelo-100: #fff5cf;
+
+    --azul-900: #153b54;
+    --vermelho-700: #a52232;
+    --vermelho-100: #fff0f1;
+
+    --branco: #ffffff;
+    --fundo: #f5f8f7;
+    --texto: #142522;
+    --texto-suave: #425552;
+    --borda: #c8d9d4;
+    --borda-forte: #8eaaa2;
+
+    --sombra-suave: 0 8px 24px rgba(8, 45, 40, 0.08);
+    --sombra-media: 0 16px 38px rgba(8, 45, 40, 0.13);
+    --sombra-navbar: 0 8px 24px rgba(4, 29, 25, 0.25);
+
+    --raio-sm: 10px;
+    --raio-md: 16px;
+    --raio-lg: 24px;
+    --transicao: 220ms ease;
+}
+
+
+/* ==================================================
+   RESET E CONFIGURAÇÕES BÁSICAS
+   Remove estilos padrões e melhora o cálculo dos tamanhos.
+   ================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-width: 320px;
+    background-color: var(--fundo);
+    color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+a,
+select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* ==================================================
+   CONTAINER
+   Mantém o conteúdo centralizado e com largura confortável.
+   ================================================== */
+.container {
+    width: min(92%, 1180px);
+    margin: 0 auto;
+}
+
+
+/* ==================================================
+   CABEÇALHO E FUNDO PRINCIPAL
+   Cria o clima visual institucional do EducaSim.
+   ================================================== */
+.cabecalho {
+    position: relative;
+    overflow: hidden;
+    min-height: 570px;
+    padding: 118px 0 76px;
+    background:
+        radial-gradient(circle at 85% 18%, rgba(243, 189, 36, 0.18), transparent 22rem),
+        radial-gradient(circle at 8% 92%, rgba(23, 117, 101, 0.42), transparent 25rem),
+        linear-gradient(135deg, var(--verde-950), var(--verde-800));
+    border-bottom: 5px solid var(--amarelo-500);
+    color: var(--branco);
+}
+
+.cabecalho::before,
+.cabecalho::after {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+}
+
+.cabecalho::before {
+    top: -180px;
+    right: -90px;
+    width: 430px;
+    height: 430px;
+}
+
+.cabecalho::after {
+    bottom: -240px;
+    left: -170px;
+    width: 520px;
+    height: 520px;
+}
+
+.cabecalho > .container {
+    /* Deixa a navbar se posicionar em relação ao cabeçalho inteiro. */
+    position: static;
+    z-index: 1;
+}
+
+
+/* ==================================================
+   NAVBAR NO TOPO
+   Fica integrada ao cabeçalho enquanto a página está no topo.
+   ================================================== */
+.barra-navegacao {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+
+    width: 100vw;
+    min-height: 78px;
+    padding: 16px max(4%, calc((100vw - 1180px) / 2));
+
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    transform: translateX(-50%);
+    transition:
+        min-height var(--transicao),
+        padding var(--transicao),
+        background-color var(--transicao),
+        border-color var(--transicao),
+        box-shadow var(--transicao),
+        backdrop-filter var(--transicao);
+}
+
+
+/* ==================================================
+   NAVBAR DEPOIS DA ROLAGEM
+   A classe adicionada pelo JavaScript cria o estado compacto.
+   ================================================== */
+.barra-navegacao.rolou {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    min-height: 66px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: rgba(8, 45, 40, 0.94);
+    border-bottom: 2px solid var(--amarelo-500);
+    box-shadow: var(--sombra-navbar);
+    transform: none;
+    backdrop-filter: blur(14px);
+}
+
+
+/* ==================================================
+   LOGO
+   Destaca o nome do projeto e anima sua redução ao rolar.
+   ================================================== */
+.logo {
+    flex-shrink: 0;
+    color: var(--branco);
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    transition: color var(--transicao), transform var(--transicao), font-size var(--transicao);
+}
+
+
+/* ==================================================
+   IMAGEM DA LOGO
+   Ajusta a imagem enviada para o espaço do cabeçalho.
+   ================================================== */
+.logo-imagem {
+    display: block;
+    width: auto;
+    height: 48px;
+    max-width: 190px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.logo::after {
+    /* A logo agora é uma imagem, então não usamos o ponto decorativo antigo. */
+    display: none;
+}
+
+.logo:hover {
+    color: var(--amarelo-500);
+    transform: translateY(-1px);
+}
+
+.barra-navegacao.rolou .logo {
+    font-size: 1.5rem;
+}
+
+.barra-navegacao.rolou .logo-imagem {
+    height: 38px;
+}
+
+
+/* ==================================================
+   MENU PRINCIPAL
+   Organiza os links da navegação sem poluir o cabeçalho.
+   ================================================== */
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 5px;
+    list-style: none;
+}
+
+.menu a {
+    display: block;
+    padding: 9px 12px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--branco);
+    font-size: 0.93rem;
+    text-decoration: none;
+    transition: background-color var(--transicao), border-color var(--transicao), color var(--transicao);
+}
+
+.menu a:hover {
+    background-color: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: var(--amarelo-500);
+}
+
+
+/* ==================================================
+   BOTÃO DO MENU MOBILE
+   Fica oculto em telas grandes e será mostrado no celular.
+   ================================================== */
+.botao-menu {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--raio-sm);
+    background-color: transparent;
+    color: var(--branco);
+    cursor: pointer;
+}
+
+.botao-menu:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.botao-menu .traco {
+    display: block;
+    width: 21px;
+    height: 2px;
+    margin: 3px auto;
+    background-color: currentColor;
+    transition: transform var(--transicao), opacity var(--transicao);
+}
+
+.botao-menu.aberto .traco:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.botao-menu.aberto .traco:nth-child(2) {
+    opacity: 0;
+}
+
+.botao-menu.aberto .traco:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+}
+
+.barra-navegacao.rolou .menu a {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-size: 0.88rem;
+}
+
+
+/* ==================================================
+   ÁREA DE DESTAQUE
+   Apresenta a proposta principal com espaço e contraste.
+   ================================================== */
+.destaque {
+    max-width: 800px;
+    margin: 48px auto 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    text-align: center;
+}
+
+.etiqueta-destaque,
+.etiqueta-secao {
+    margin-bottom: 12px;
+    color: var(--amarelo-500);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+.etiqueta-destaque {
+    display: inline-flex;
+    padding: 7px 13px;
+    border: 1px solid rgba(243, 189, 36, 0.65);
+    border-radius: 999px;
+    background-color: rgba(243, 189, 36, 0.1);
+}
+
+.destaque h1 {
+    max-width: 760px;
+    margin: 0 auto 22px;
+    color: var(--branco);
+    font-size: clamp(2.35rem, 5vw, 4.5rem);
+    line-height: 1.06;
+    letter-spacing: -1.8px;
+}
+
+.destaque > p:not(.etiqueta-destaque) {
+    max-width: 650px;
+    margin: 0 auto 34px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: clamp(1rem, 2vw, 1.18rem);
+}
+
+.botao-destaque {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 13px 22px;
+    border: 2px solid var(--amarelo-500);
+    border-radius: var(--raio-sm);
+    background-color: var(--amarelo-500);
+    color: var(--verde-950);
+    font-weight: 800;
+    text-decoration: none;
+    transition: background-color var(--transicao), transform var(--transicao), box-shadow var(--transicao);
+}
+
+.botao-destaque::after {
+    margin-left: 9px;
+    content: "→";
+    font-size: 1.2rem;
+}
+
+.botao-destaque:hover {
+    background-color: var(--amarelo-100);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    transform: translateY(-3px);
+}
+
+
+/* ==================================================
+   CONTEÚDO PRINCIPAL E CARTÕES DE SEÇÃO
+   Cria ritmo visual entre as áreas da página.
+   ================================================== */
+main {
+    padding: 54px 0 70px;
+}
+
+main section:not(.destaque) {
+    position: relative;
+    margin-bottom: 30px;
+    padding: clamp(24px, 4vw, 38px);
+    background-color: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-lg);
+    box-shadow: var(--sombra-suave);
+    scroll-margin-top: 92px;
+    transition: box-shadow var(--transicao), transform var(--transicao);
+}
+
+main section:not(.destaque):hover {
+    box-shadow: var(--sombra-media);
+    transform: translateY(-2px);
+}
+
+main section:not(.destaque) h2 {
+    margin-bottom: 14px;
+    color: var(--verde-950);
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.6px;
+}
+
+.introducao p,
+.secao-cursos p,
+.secao-cadastro > p,
+.secao-minhas-inscricoes > p {
+    max-width: 760px;
+    margin-bottom: 13px;
+    color: var(--texto-suave);
+    font-size: 1.03rem;
+}
+
+
+/* ==================================================
+   OBJETIVOS DO PROJETO
+   Organiza os cartões dos ODS.
+   ================================================== */
+.objetivos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 26px;
+}
+
+.objetivo {
+    padding: 21px;
+    background: linear-gradient(135deg, var(--verde-50), var(--verde-100));
+    border: 1px solid #b8d8ce;
+    border-left: 5px solid var(--amarelo-500);
+    border-radius: var(--raio-sm);
+    transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.objetivo:hover {
+    box-shadow: var(--sombra-suave);
+    transform: translateY(-3px);
+}
+
+.objetivo strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--verde-900);
+    font-size: 1.25rem;
+}
+
+.objetivo span {
+    color: var(--texto-suave);
+}
+
+
+/* ==================================================
+   CABEÇALHO DOS CURSOS E FILTROS
+   Separa a apresentação dos controles de busca.
+   ================================================== */
+.cabecalho-secao {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px;
+    margin-bottom: 28px;
+}
+
+.filtros-cursos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    gap: 12px;
+    min-width: min(100%, 590px);
+}
+
+.campo-filtro label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--texto);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.campo-filtro input,
+.campo-filtro select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    background-color: var(--branco);
+    border: 2px solid var(--borda-forte);
+    border-radius: var(--raio-sm);
+    color: var(--texto);
+    font-size: 0.92rem;
+}
+
+
+/* ==================================================
+   LISTA E CARTÕES DE CURSOS
+   Apresenta cada curso como uma oportunidade clara.
+   ================================================== */
+#listaCursos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+    gap: 20px;
+}
+
+.cartao-curso {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 23px;
+    background: linear-gradient(160deg, var(--branco), var(--verde-50));
+    border: 1px solid var(--borda);
+    border-top: 5px solid var(--verde-700);
+    border-radius: var(--raio-md);
+    box-shadow: var(--sombra-suave);
+    animation: surgir 400ms ease both;
+    transition: border-color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
+}
+
+.cartao-curso:hover {
+    border-color: var(--verde-700);
+    box-shadow: var(--sombra-media);
+    transform: translateY(-6px);
+}
+
+.cartao-curso h3 {
+    margin-bottom: 15px;
+    color: var(--verde-950);
+    font-size: 1.25rem;
+    line-height: 1.25;
+}
+
+
+/* ==================================================
+   IMAGEM DO CARTÃO DE CURSO
+   Mostra a imagem escolhida no cadastro sem deformá-la.
+   ================================================== */
+.imagem-cartao-curso {
+    width: calc(100% + 46px);
+    height: 170px;
+    margin: -23px -23px 20px;
+    object-fit: cover;
+    border-radius: var(--raio-md) var(--raio-md) 0 0;
+}
+
+.cartao-curso p {
+    margin-bottom: 8px;
+    color: var(--texto-suave);
+    font-size: 0.94rem;
+}
+
+.cartao-curso strong,
+.cartao-inscricao strong {
+    color: var(--texto);
+}
+
+.botao-inscricao {
+    width: 100%;
+    min-height: 46px;
+    margin-top: auto;
+    padding: 11px 15px;
+    border: 2px solid var(--verde-900);
+    border-radius: var(--raio-sm);
+    background-color: var(--verde-900);
+    color: var(--branco);
+    cursor: pointer;
+    font-weight: 800;
+    transition: background-color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
+}
+
+.botao-inscricao:hover:not(:disabled) {
+    background-color: var(--verde-700);
+    box-shadow: var(--sombra-suave);
+    transform: translateY(-2px);
+}
+
+.cartao-curso.curso-esgotado {
+    border-top-color: var(--vermelho-700);
+}
+
+.botao-inscricao:disabled {
+    background-color: #687873;
+    border-color: #687873;
+    cursor: not-allowed;
+}
+
+
+/* ==================================================
+   FORMULÁRIOS E CAMPOS
+   Mantém o cadastro organizado e confortável para celular.
+   ================================================== */
+form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3px 20px;
+}
+
+form > button,
+.acoes-formulario,
+.campo-checkbox {
+    grid-column: 1 / -1;
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--texto);
+    font-weight: 800;
+}
+
+.campo input:not([type="checkbox"]),
+.campo select {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 13px;
+    background-color: var(--branco);
+    border: 2px solid var(--borda-forte);
+    border-radius: var(--raio-sm);
+    color: var(--texto);
+    font-size: 1rem;
+    transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.campo input::placeholder {
+    color: #647772;
+}
+
+
+/* ==================================================
+   CAMPO DE IMAGEM DO CURSO
+   Estiliza a seleção de arquivo e a área de prévia.
+   ================================================== */
+.campo-imagem {
+    grid-column: 1 / -1;
+}
+
+.campo-imagem input[type="file"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 9px;
+    background-color: var(--verde-50);
+    border: 2px dashed var(--borda-forte);
+    border-radius: var(--raio-sm);
+    color: var(--texto);
+    cursor: pointer;
+}
+
+.campo-imagem input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 9px 13px;
+    border: 0;
+    border-radius: 7px;
+    background-color: var(--verde-900);
+    color: var(--branco);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.campo-imagem input[type="file"]::file-selector-button:hover {
+    background-color: var(--verde-700);
+}
+
+.campo-imagem small {
+    display: block;
+    margin-top: 7px;
+    color: var(--texto-suave);
+    font-size: 0.85rem;
+}
+
+#previaImagemCurso {
+    margin-top: 14px;
+}
+
+#previaImagemCurso img {
+    display: block;
+    width: min(100%, 300px);
+    max-height: 180px;
+    object-fit: cover;
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-sm);
+    box-shadow: var(--sombra-suave);
+}
+
+.campo-checkbox label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--texto-suave);
+    font-weight: normal;
+}
+
+.campo-checkbox input {
+    width: 19px;
+    height: 19px;
+    flex: 0 0 auto;
+    margin-top: 3px;
+    accent-color: var(--verde-700);
+}
+
+.campo input:not([type="checkbox"]):focus,
+.campo select:focus,
+.campo-filtro input:focus,
+.campo-filtro select:focus {
+    border-color: var(--verde-700);
+    box-shadow: 0 0 0 4px rgba(243, 189, 36, 0.28);
+    outline: 3px solid var(--amarelo-500);
+    outline-offset: 2px;
+}
+
+form button {
+    min-height: 48px;
+    padding: 12px 21px;
+    border: 2px solid var(--verde-900);
+    border-radius: var(--raio-sm);
+    background-color: var(--verde-900);
+    color: var(--branco);
+    cursor: pointer;
+    font-weight: 800;
+    transition: background-color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
+}
+
+form button:hover {
+    background-color: var(--verde-700);
+    box-shadow: var(--sombra-suave);
+    transform: translateY(-2px);
+}
+
+.acoes-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.acoes-formulario .botao-secundario {
+    background-color: transparent;
+    border-color: var(--borda-forte);
+    color: var(--texto);
+}
+
+.acoes-formulario .botao-secundario:hover {
+    background-color: var(--fundo);
+    border-color: var(--texto-suave);
+}
+
+
+/* ==================================================
+   CURSO SELECIONADO
+   Mostra a oportunidade escolhida no formulário de inscrição.
+   ================================================== */
+#cursoSelecionado {
+    margin: 20px 0 26px;
+    padding: 18px;
+    background-color: var(--verde-100);
+    border-left: 5px solid var(--amarelo-500);
+    border-radius: var(--raio-sm);
+}
+
+#cursoSelecionado h3 {
+    margin-bottom: 5px;
+    color: var(--verde-900);
+}
+
+#cursoSelecionado p {
+    color: var(--texto-suave);
+}
+
+
+/* ==================================================
+   CARTÕES DE INSCRIÇÃO
+   Apresenta as inscrições salvas no navegador.
+   ================================================== */
+#listaInscricoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+    gap: 18px;
+}
+
+.cartao-inscricao {
+    padding: 20px;
+    background-color: var(--verde-50);
+    border: 1px solid var(--borda);
+    border-left: 5px solid var(--verde-700);
+    border-radius: var(--raio-sm);
+    animation: surgir 400ms ease both;
+}
+
+.cartao-inscricao h3 {
+    margin-bottom: 12px;
+    color: var(--verde-950);
+    font-size: 1.12rem;
+    line-height: 1.3;
+}
+
+.cartao-inscricao p {
+    margin-bottom: 7px;
+    color: var(--texto-suave);
+    font-size: 0.94rem;
+}
+
+.mensagem-vazia {
+    grid-column: 1 / -1;
+    padding: 24px;
+    color: var(--texto-suave);
+    font-style: italic;
+    text-align: center;
+}
+
+
+/* ==================================================
+   INDICADORES DE IMPACTO
+   Cria uma área de números clara e visualmente forte.
+   ================================================== */
+.impacto {
+    background: linear-gradient(135deg, var(--amarelo-100), #fffdf5) !important;
+    border: 2px solid var(--amarelo-500) !important;
+    border-left: 7px solid var(--amarelo-500) !important;
+}
+
+.indicadores {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 25px;
+}
+
+.indicador {
+    padding: 20px 12px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(8, 45, 40, 0.16);
+    border-radius: var(--raio-sm);
+    text-align: center;
+}
+
+.indicador strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--verde-900);
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.indicador span {
+    color: var(--texto-suave);
+    font-size: 0.88rem;
+}
+
+
+/* ==================================================
+   RODAPÉ
+   Finaliza a página com contraste alto.
+   ================================================== */
+.rodape {
+    padding: 30px 0;
+    background-color: var(--verde-950);
+    color: var(--branco);
+    text-align: center;
+}
+
+.rodape p {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+
+/* ==================================================
+   FOCO DE ACESSIBILIDADE
+   Mantém o foco visível para navegação pelo teclado.
+   ================================================== */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 4px solid var(--amarelo-500);
+    outline-offset: 3px;
+}
+
+
+/* ==================================================
+   ANIMAÇÃO DOS CARTÕES
+   Faz novos cartões surgirem suavemente.
+   ================================================== */
+@keyframes surgir {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================================================
+   TABLETS
+   Ajusta a navegação, os filtros e os indicadores.
+   ================================================== */
+@media (max-width: 900px) {
+    .barra-navegacao {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .menu {
+        justify-content: flex-start;
+    }
+
+    .cabecalho-secao {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .filtros-cursos {
+        min-width: 100%;
+    }
+
+    .indicadores {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* ==================================================
+   CELULARES
+   Coloca os elementos em uma coluna e amplia a área de toque.
+   ================================================== */
+@media (max-width: 600px) {
+    .container {
+        width: min(92%, 480px);
+    }
+
+    .cabecalho {
+        min-height: 690px;
+        padding: 145px 0 68px;
+    }
+
+    .barra-navegacao {
+        min-height: 76px;
+        padding: 18px 4%;
+    }
+
+    .barra-navegacao.rolou {
+        min-height: 62px;
+        padding: 9px 4%;
+    }
+
+    .barra-navegacao.rolou .menu:not(.aberto) {
+        display: none;
+    }
+
+    .barra-navegacao.rolou .menu.aberto {
+        display: flex;
+    }
+
+    .logo {
+        font-size: 1.65rem;
+    }
+
+    .logo-imagem {
+        height: 40px;
+        max-width: 155px;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 4%;
+        left: 4%;
+        flex-direction: column;
+        gap: 3px;
+        padding: 10px;
+        background-color: rgba(8, 45, 40, 0.98);
+        border: 1px solid rgba(243, 189, 36, 0.55);
+        border-radius: var(--raio-md);
+        box-shadow: var(--sombra-navbar);
+    }
+
+    .menu.aberto {
+        display: flex;
+        animation: abrir-menu 180ms ease both;
+    }
+
+    .barra-navegacao {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .barra-navegacao nav {
+        margin-left: auto;
+    }
+
+    .botao-menu {
+        display: inline-flex;
+    }
+
+    .menu a {
+        padding: 11px 12px;
+        border-radius: var(--raio-sm);
+    }
+
+    .destaque {
+        margin-top: 54px;
+    }
+
+    .destaque h1 {
+        font-size: 2.45rem;
+        letter-spacing: -1px;
+    }
+
+    main {
+        padding: 30px 0 45px;
+    }
+
+    main section:not(.destaque) {
+        padding: 24px 20px;
+        border-radius: var(--raio-md);
+    }
+
+    .objetivos,
+    .filtros-cursos,
+    form,
+    .indicadores {
+        grid-template-columns: 1fr;
+    }
+
+    #listaCursos,
+    #listaInscricoes {
+        grid-template-columns: 1fr;
+    }
+
+    .botao-destaque,
+    form > button {
+        width: 100%;
+    }
+
+    .acoes-formulario {
+        flex-direction: column;
+    }
+
+    .acoes-formulario button {
+        width: 100%;
+    }
+}
+
+
+/* ==================================================
+   ANIMAÇÃO DO MENU MOBILE
+   Faz o menu aparecer de forma suave ao ser aberto.
+   ================================================== */
+@keyframes abrir-menu {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================================================
+   REDUÇÃO DE MOVIMENTO
+   Respeita a preferência do usuário por menos animações.
+   ================================================== */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
