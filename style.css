@@ -96,7 +96,7 @@ select {
     position: relative;
     overflow: hidden;
     min-height: 570px;
-    padding: 118px 0 76px;
+    padding: 158px 0 76px;
     background:
         radial-gradient(circle at 85% 18%, rgba(243, 189, 36, 0.18), transparent 22rem),
         radial-gradient(circle at 8% 92%, rgba(23, 117, 101, 0.42), transparent 25rem),
@@ -136,12 +136,52 @@ select {
 
 
 /* ==================================================
+   BRASÕES INSTITUCIONAIS
+   Identificação exigida pelo projeto escolar.
+   Governo do Paraná à esquerda e Colégio Cívico-Militar à direita.
+   ================================================== */
+.brasoes-institucionais {
+    position: absolute;
+    top: 10px;
+    right: max(4%, calc((100vw - 1180px) / 2));
+    left: max(4%, calc((100vw - 1180px) / 2));
+    z-index: 1100;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 24px;
+
+    min-height: 64px;
+    pointer-events: none;
+}
+
+.brasao {
+    display: block;
+    width: auto;
+    height: 62px;
+    max-width: 190px;
+    object-fit: contain;
+    object-position: center;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.18));
+}
+
+.brasao-governo {
+    justify-self: start;
+}
+
+.brasao-colegio {
+    justify-self: end;
+}
+
+
+/* ==================================================
    NAVBAR NO TOPO
    Fica integrada ao cabeçalho enquanto a página está no topo.
    ================================================== */
 .barra-navegacao {
     position: absolute;
-    top: 0;
+    top: 84px;
     left: 0;
     z-index: 1000;
 
@@ -1535,5 +1575,64 @@ select:focus-visible {
     to {
         opacity: 0;
         transform: translateY(-8px) scale(0.95);
+    }
+}
+
+/* ==================================================
+   AJUSTE DOS BRASÕES INSTITUCIONAIS
+   Mantém os dois brasões visíveis e proporcionais em
+   computadores, tablets e celulares.
+   ================================================== */
+
+@media (max-width: 900px) {
+    .brasoes-institucionais {
+        right: 4%;
+        left: 4%;
+        gap: 16px;
+    }
+
+    .brasao {
+        height: 56px;
+        max-width: 165px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cabecalho {
+        padding-top: 142px;
+    }
+
+    .brasoes-institucionais {
+        top: 8px;
+        min-height: 56px;
+        gap: 12px;
+    }
+
+    .brasao {
+        height: 52px;
+        max-width: 135px;
+    }
+
+    .barra-navegacao {
+        top: 68px;
+    }
+
+    .barra-navegacao.rolou {
+        top: 0;
+    }
+}
+
+@media (max-width: 380px) {
+    .brasoes-institucionais {
+        gap: 8px;
+    }
+
+    .brasao {
+        height: 46px;
+        max-width: 112px;
+    }
+
+    .barra-navegacao {
+        top: 62px;
     }
 }
