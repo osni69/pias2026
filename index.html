@@ -16,6 +16,18 @@
 </head>
 
 <body>
+    <!-- Avisos que aparecem dentro da página (substituem o alert). -->
+    <div class="avisos" id="avisos" role="status" aria-live="polite"></div>
+
+    <!-- Janela de confirmação usada antes de excluir. -->
+    <dialog class="dialogo" id="dialogoConfirmacao" aria-labelledby="tituloDialogo" aria-describedby="textoDialogo">
+        <h2 id="tituloDialogo"></h2>
+        <p id="textoDialogo"></p>
+        <div class="acoes-dialogo">
+            <button type="button" class="botao-perigo" id="botaoConfirmarExclusao">Sim, excluir</button>
+            <button type="button" class="botao-cancelar-dialogo" id="botaoCancelarExclusao" autofocus>Cancelar</button>
+        </div>
+    </dialog>
     <!-- Cabeçalho principal do site. -->
     <header class="cabecalho" id="topo">
         <div class="container">
@@ -26,7 +38,7 @@
                 <a class="logo" href="#topo" aria-label="Voltar para o início do EducaSim">
                     <img
                         class="logo-imagem"
-                        src="images/logo.jpeg"
+                        src="imagens/logo.jpg"
                         alt="Logo do EducaSim"
                     >
                 </a>
@@ -154,8 +166,8 @@
 
                             <select id="filtroCategoria">
                                 <option value="">Todas as categorias</option>
-                                <option value="Administrativos">Administrativos</option>
-                                <option value="Informáticos">Informáticos</option>
+                                <option value="Administrativos">Administrativo</option>
+                                <option value="Informáticos">Informático</option>
                                 <option value="Turismo">Turismo</option>
                                 <option value="Saúde">Saúde</option>
                             </select>
@@ -185,13 +197,16 @@
             <section class="secao-cadastro" id="cadastro-curso">
                 <p class="etiqueta-secao">Para instituições e parceiros</p>
 
-                <h2>Disponibilizar um curso</h2>
+                <h2 id="tituloFormularioCurso">Disponibilizar um curso</h2>
 
                 <p>
                     Cadastre uma oportunidade para que ela apareça na lista de cursos.
                 </p>
 
                 <form id="formularioCadastroCurso">
+                    <!-- Preenchido somente quando um curso está sendo editado. -->
+                    <input type="hidden" id="cursoIdEdicao">
+
                     <!-- Título do curso. -->
                     <div class="campo">
                         <label for="tituloCurso">
@@ -276,10 +291,88 @@
                         </select>
                     </div>
 
-                    <!-- Botão de cadastro do curso. -->
-                    <button type="submit">
-                        Disponibilizar curso
-                    </button>
+                    <!-- Descrição do curso. -->
+                    <div class="campo campo-largo">
+                        <label for="descricaoCurso">Descrição do curso</label>
+
+                        <textarea
+                            id="descricaoCurso"
+                            name="descricaoCurso"
+                            rows="3"
+                            maxlength="600"
+                            placeholder="Explique, em poucas linhas, do que se trata o curso"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <!-- Conteúdos aprendidos. -->
+                    <div class="campo campo-largo">
+                        <label for="conteudosCurso">Conteúdos aprendidos</label>
+
+                        <textarea
+                            id="conteudosCurso"
+                            name="conteudosCurso"
+                            rows="4"
+                            placeholder="Escreva um conteúdo por linha"
+                        ></textarea>
+
+                        <small>Escreva um conteúdo por linha. Este campo é opcional.</small>
+                    </div>
+
+                    <!-- Duração do curso. -->
+                    <div class="campo">
+                        <label for="duracaoCurso">Duração</label>
+
+                        <input
+                            type="text"
+                            id="duracaoCurso"
+                            name="duracaoCurso"
+                            maxlength="80"
+                            placeholder="[informe a duração]"
+                        >
+                    </div>
+
+                    <!-- Requisitos do curso. -->
+                    <div class="campo">
+                        <label for="requisitosCurso">Requisitos</label>
+
+                        <input
+                            type="text"
+                            id="requisitosCurso"
+                            name="requisitosCurso"
+                            maxlength="200"
+                            placeholder="[informe os requisitos]"
+                        >
+                    </div>
+
+                    <!-- Local ou link das aulas. -->
+                    <div class="campo campo-largo">
+                        <label for="localCurso">Local ou link das aulas</label>
+
+                        <input
+                            type="text"
+                            id="localCurso"
+                            name="localCurso"
+                            maxlength="200"
+                            placeholder="[informe o local ou link]"
+                        >
+                    </div>
+
+                    <!-- Botões do cadastro e da edição do curso. -->
+                    <div class="acoes-formulario">
+                        <button type="submit" id="botaoSalvarCurso">
+                            Disponibilizar curso
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-secundario"
+                            id="botaoCancelarEdicao"
+                            hidden
+                        >
+                            Cancelar edição
+                        </button>
+                    </div>
                 </form>
             </section>
 

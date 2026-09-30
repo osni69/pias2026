@@ -31,7 +31,7 @@
     --raio-sm: 10px;
     --raio-md: 16px;
     --raio-lg: 24px;
-    --transicao: 220ms ease;
+    --transicao: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 
@@ -47,14 +47,18 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 88px;
 }
 
 body {
     min-width: 320px;
+    overflow-x: hidden;
     background-color: var(--fundo);
     color: var(--texto);
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 [hidden] {
@@ -138,7 +142,7 @@ select {
 .barra-navegacao {
     position: absolute;
     top: 0;
-    left: 50%;
+    left: 0;
     z-index: 1000;
 
     display: flex;
@@ -146,13 +150,13 @@ select {
     justify-content: space-between;
     gap: 28px;
 
-    width: 100vw;
+    width: 100%;
     min-height: 78px;
     padding: 16px max(4%, calc((100vw - 1180px) / 2));
 
     background-color: transparent;
     border-bottom: 1px solid transparent;
-    transform: translateX(-50%);
+    transform: none;
     transition:
         min-height var(--transicao),
         padding var(--transicao),
@@ -176,11 +180,15 @@ select {
     padding-top: 10px;
     padding-bottom: 10px;
 
-    background-color: rgba(8, 45, 40, 0.94);
-    border-bottom: 2px solid var(--amarelo-500);
-    box-shadow: var(--sombra-navbar);
+    background-color: rgba(30, 71, 66, 0.63);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 2px solid rgba(243, 189, 36, 0.82);
+    box-shadow:
+        0 8px 26px rgba(4, 29, 25, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
     transform: none;
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(18px) saturate(155%);
+    -webkit-backdrop-filter: blur(18px) saturate(155%);
 }
 
 
@@ -289,7 +297,7 @@ select {
     height: 2px;
     margin: 3px auto;
     background-color: currentColor;
-    transition: transform var(--transicao), opacity var(--transicao);
+    transition: transform 0.16s ease, opacity 0.16s ease;
 }
 
 .botao-menu.aberto .traco:nth-child(1) {
@@ -405,6 +413,7 @@ main section:not(.destaque) {
     box-shadow: var(--sombra-suave);
     scroll-margin-top: 92px;
     transition: box-shadow var(--transicao), transform var(--transicao);
+    animation: subir-suave 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 main section:not(.destaque):hover {
@@ -528,7 +537,7 @@ main section:not(.destaque) h2 {
     border-top: 5px solid var(--verde-700);
     border-radius: var(--raio-md);
     box-shadow: var(--sombra-suave);
-    animation: surgir 400ms ease both;
+    animation: surgir 0.5s ease both;
     transition: border-color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
 }
 
@@ -801,7 +810,7 @@ form button:hover {
     border: 1px solid var(--borda);
     border-left: 5px solid var(--verde-700);
     border-radius: var(--raio-sm);
-    animation: surgir 400ms ease both;
+    animation: surgir 0.5s ease both;
 }
 
 .cartao-inscricao h3 {
@@ -866,6 +875,45 @@ form button:hover {
 
 
 /* ==================================================
+   HOVERS COMPLEMENTARES
+   Dá resposta visual aos elementos sem exagerar no movimento.
+   ================================================== */
+.indicador {
+    transition: background-color var(--transicao), border-color var(--transicao), transform var(--transicao), box-shadow var(--transicao);
+}
+
+.indicador:hover {
+    background-color: var(--branco);
+    border-color: rgba(8, 45, 40, 0.32);
+    box-shadow: var(--sombra-suave);
+    transform: translateY(-5px);
+}
+
+.cartao-inscricao {
+    transition: background-color var(--transicao), border-color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
+}
+
+.cartao-inscricao:hover {
+    background-color: var(--branco);
+    border-color: var(--verde-700);
+    box-shadow: var(--sombra-suave);
+    transform: translateY(-4px);
+}
+
+.campo input:not([type="checkbox"]):hover,
+.campo select:hover,
+.campo-filtro input:hover,
+.campo-filtro select:hover {
+    border-color: var(--verde-700);
+}
+
+.campo-imagem input[type="file"]:hover {
+    background-color: var(--verde-100);
+    border-color: var(--verde-700);
+}
+
+
+/* ==================================================
    RODAPÉ
    Finaliza a página com contraste alto.
    ================================================== */
@@ -912,18 +960,42 @@ select:focus-visible {
 
 
 /* ==================================================
+   ENTRADA SUAVE DAS SEÇÕES
+   Faz o conteúdo aparecer com leveza ao abrir a página.
+   ================================================== */
+@keyframes subir-suave {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================================================
    TABLETS
    Ajusta a navegação, os filtros e os indicadores.
    ================================================== */
 @media (max-width: 900px) {
     .barra-navegacao {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 9px;
+        align-items: center;
+        flex-direction: row;
+        gap: 18px;
     }
 
     .menu {
-        justify-content: flex-start;
+        justify-content: flex-end;
+        gap: 2px;
+    }
+
+    .menu a {
+        padding-right: 9px;
+        padding-left: 9px;
+        font-size: 0.88rem;
     }
 
     .cabecalho-secao {
@@ -965,6 +1037,11 @@ select:focus-visible {
         padding: 9px 4%;
     }
 
+    .barra-navegacao.rolou .logo-imagem {
+        height: 34px;
+        max-width: 125px;
+    }
+
     .barra-navegacao.rolou .menu:not(.aberto) {
         display: none;
     }
@@ -999,7 +1076,7 @@ select:focus-visible {
 
     .menu.aberto {
         display: flex;
-        animation: abrir-menu 180ms ease both;
+        animation: abrir-menu 0.16s ease both;
     }
 
     .barra-navegacao {
@@ -1008,11 +1085,16 @@ select:focus-visible {
     }
 
     .barra-navegacao nav {
-        margin-left: auto;
+        margin-left: 0;
     }
 
     .botao-menu {
+        position: absolute;
+        top: 50%;
+        right: 4%;
         display: inline-flex;
+        margin: 0;
+        transform: translateY(-50%);
     }
 
     .menu a {
@@ -1027,6 +1109,10 @@ select:focus-visible {
     .destaque h1 {
         font-size: 2.45rem;
         letter-spacing: -1px;
+    }
+
+    .destaque > p:not(.etiqueta-destaque) {
+        font-size: 1rem;
     }
 
     main {
@@ -1066,6 +1152,36 @@ select:focus-visible {
 
 
 /* ==================================================
+   TELAS PEQUENAS E TABLETS MENORES
+   Evita que os links e campos fiquem apertados.
+   ================================================== */
+@media (min-width: 601px) and (max-width: 720px) {
+    .barra-navegacao {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .menu {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .cabecalho {
+        min-height: 630px;
+    }
+
+    .filtros-cursos {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .campo-filtro:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* ==================================================
    ANIMAÇÃO DO MENU MOBILE
    Faz o menu aparecer de forma suave ao ser aberto.
    ================================================== */
@@ -1097,5 +1213,327 @@ select:focus-visible {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* ==================================================
+   NOVOS CAMPOS DO FORMULÁRIO DE CURSO
+   Área de texto, campos largos e textos de apoio.
+   ================================================== */
+.campo-largo {
+    grid-column: 1 / -1;
+}
+
+.campo textarea {
+    display: block;
+    width: 100%;
+    min-height: 96px;
+    padding: 12px 13px;
+    background-color: var(--branco);
+    border: 2px solid var(--borda-forte);
+    border-radius: var(--raio-sm);
+    color: var(--texto);
+    font: inherit;
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.campo textarea::placeholder {
+    color: #647772;
+}
+
+.campo textarea:hover {
+    border-color: var(--verde-700);
+}
+
+.campo textarea:focus {
+    border-color: var(--verde-700);
+    box-shadow: 0 0 0 4px rgba(243, 189, 36, 0.28);
+    outline: 3px solid var(--amarelo-500);
+    outline-offset: 2px;
+}
+
+.campo small {
+    display: block;
+    margin-top: 6px;
+    color: var(--texto-suave);
+    font-size: 0.85rem;
+}
+
+
+/* ==================================================
+   DESCRIÇÃO E DETALHES NO CARTÃO DO CURSO
+   Mostra as informações extras sem alongar o cartão.
+   ================================================== */
+.cartao-curso .descricao-curso {
+    margin-bottom: 14px;
+    color: var(--texto);
+}
+
+.detalhes-curso {
+    margin: 4px 0 18px;
+    padding: 12px 14px;
+    background-color: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-sm);
+}
+
+.detalhes-curso summary {
+    cursor: pointer;
+    color: var(--verde-900);
+    font-weight: 800;
+}
+
+.detalhes-curso[open] summary {
+    margin-bottom: 10px;
+}
+
+.detalhes-curso h4 {
+    margin: 4px 0 6px;
+    color: var(--texto);
+    font-size: 0.94rem;
+}
+
+.detalhes-curso ul {
+    margin: 0 0 12px 20px;
+    color: var(--texto-suave);
+    font-size: 0.94rem;
+}
+
+.detalhes-curso a {
+    color: var(--verde-800);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+
+/* ==================================================
+   BOTÕES EDITAR E EXCLUIR
+   Ficam abaixo do botão de inscrição, com menos destaque.
+   ================================================== */
+.acoes-cartao {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.botao-acao {
+    flex: 1;
+    min-height: 44px;
+    padding: 9px 12px;
+    background-color: transparent;
+    border: 2px solid var(--borda-forte);
+    border-radius: var(--raio-sm);
+    color: var(--texto);
+    cursor: pointer;
+    font-weight: 800;
+    transition: background-color var(--transicao), border-color var(--transicao), color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
+}
+
+.botao-acao:hover {
+    box-shadow: var(--sombra-suave);
+    transform: translateY(-2px);
+}
+
+.botao-acao:active {
+    transform: translateY(0);
+}
+
+.botao-editar:hover {
+    background-color: var(--verde-100);
+    border-color: var(--verde-700);
+}
+
+.botao-excluir {
+    border-color: var(--vermelho-700);
+    color: var(--vermelho-700);
+}
+
+.botao-excluir:hover {
+    background-color: var(--vermelho-100);
+}
+
+.botao-acao:focus-visible,
+.aviso-fechar:focus-visible,
+.acoes-dialogo button:focus-visible {
+    outline: 4px solid var(--amarelo-500);
+    outline-offset: 3px;
+}
+
+
+/* ==================================================
+   AVISOS DENTRO DA PÁGINA
+   Substituem o alert(). O símbolo e o texto indicam o tipo.
+   ================================================== */
+.avisos {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: min(380px, calc(100% - 40px));
+    pointer-events: none;
+}
+
+.aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 14px 14px 16px;
+    background-color: var(--verde-100);
+    border: 2px solid var(--verde-700);
+    border-left-width: 7px;
+    border-radius: var(--raio-sm);
+    box-shadow: var(--sombra-media);
+    color: var(--verde-950);
+    pointer-events: auto;
+    animation: surgir 0.3s ease both;
+}
+
+.aviso-erro {
+    background-color: var(--vermelho-100);
+    border-color: var(--vermelho-700);
+    color: #5c111b;
+}
+
+.aviso-info {
+    background-color: var(--amarelo-100);
+    border-color: #b98a00;
+    color: var(--verde-950);
+}
+
+.aviso-simbolo {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.aviso-texto {
+    flex: 1;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.aviso-fechar {
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.aviso-fechar:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==================================================
+   JANELA DE CONFIRMAÇÃO
+   Pergunta antes de excluir um curso.
+   ================================================== */
+.dialogo {
+    width: min(92%, 460px);
+    margin: auto;
+    padding: 26px;
+    background-color: var(--branco);
+    border: 2px solid var(--vermelho-700);
+    border-radius: var(--raio-md);
+    box-shadow: var(--sombra-media);
+    color: var(--texto);
+}
+
+.dialogo::backdrop {
+    background-color: rgba(8, 45, 40, 0.62);
+}
+
+.dialogo h2 {
+    margin-bottom: 10px;
+    color: var(--verde-950);
+    font-size: 1.3rem;
+    line-height: 1.25;
+}
+
+.dialogo p {
+    margin-bottom: 22px;
+    color: var(--texto-suave);
+}
+
+.acoes-dialogo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.acoes-dialogo button {
+    min-height: 46px;
+    padding: 10px 18px;
+    border: 2px solid;
+    border-radius: var(--raio-sm);
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.botao-perigo {
+    background-color: var(--vermelho-700);
+    border-color: var(--vermelho-700);
+    color: var(--branco);
+}
+
+.botao-perigo:hover {
+    background-color: #861a27;
+}
+
+.botao-cancelar-dialogo {
+    background-color: transparent;
+    border-color: var(--borda-forte);
+    color: var(--texto);
+}
+
+.botao-cancelar-dialogo:hover {
+    background-color: var(--fundo);
+}
+
+@media (max-width: 600px) {
+    .avisos {
+        right: 4%;
+        bottom: 12px;
+        width: 92%;
+    }
+
+    .acoes-dialogo button {
+        width: 100%;
+    }
+}
+
+
+/* ==================================================
+   SAÍDA DO CARTÃO AO EXCLUIR
+   O cartão some suavemente antes de ser removido.
+   ================================================== */
+.cartao-curso.saindo {
+    animation: sair-cartao 0.35s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes sair-cartao {
+    to {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
     }
 }
